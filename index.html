@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8"/>
+  <title>Sematrica Symmetrical Neural Network</title>
+  <style>
+    /* Make the page fill the entire window */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #141414;
+      overflow: hidden; /* no scrollbars */
+    }
+    svg {
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Tooltip styling */
+    #tooltip {
+      position: absolute;
+      pointer-events: none;
+      padding: 6px 8px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      font-size: 14px;
+      font-family: sans-serif;
+      border-radius: 4px;
+      display: none; /* hidden by default */
+      z-index: 9999;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Tooltip shown on hover -->
+<div id="tooltip"></div>
+
+<svg viewBox="0 0 600 900" xmlns="http://www.w3.org/2000/svg">
+  <!-- ========== Glow Filter Definition ========== -->
+  <defs>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blurred"/>
+      <feMerge>
+        <feMergeNode in="blurred"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!--
+    ========== Embedding Orbitron for any text (optional) ==========
+    If you want a label, we can place it.
+  -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
+
+    /* For any optional text usage */
+    .banner-text {
+      font-family: 'Orbitron', sans-serif;
+      fill: #f0f0f0;
+      font-size: 36px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    /* Default lines style: dim gray, partial opacity, glows on hover */
+    .link-line {
+      stroke: #888;
+      stroke-width: 2.5;
+      opacity: 0.4;
+      fill: none;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .link-line:hover {
+      stroke: #fff;
+      opacity: 1.0;
+      filter: url(#glow);
+    }
+
+    /* Default node style: dim gray, partial opacity, glows & enlarges on hover */
+    .link-node {
+      fill: #888;
+      opacity: 0.4;
+      transition: 0.2s;
+      cursor: pointer;
+    }
+    .link-node:hover {
+      fill: #fff;
+      opacity: 1.0;
+      r: 7;
+      filter: url(#glow);
+    }
+  </style>
+
+  <!-- Dark rectangle to ensure a uniform background -->
+  <rect x="0" y="0" width="600" height="900" fill="#141414"/>
+
+  <!--
+    ========== Symmetrical Neural Diagram ==========
+    We'll define a vertical "spine" of nodes from top to bottom,
+    plus symmetrical "arms" or "rings" branching out at certain levels.
+
+    For clarity, each node has a data-link attribute. Lines do as well.
+    Coordinates approximate a tall symmetrical shape.
+  -->
+
+  <!-- ~~~~~~~~~~~~~ Spine NODES ~~~~~~~~~~~~~ -->
+  <!-- (300, 80) top node -->
+  <circle cx="300" cy="80" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineTop" />
+  <!-- (300, 140) second node -->
+  <circle cx="300" cy="140" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineNode1" />
+  <!-- (300, 200) center of top ring -->
+  <circle cx="300" cy="200" r="6"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineNode2" />
+  <!-- (300, 280) center node between top & lower ring -->
+  <circle cx="300" cy="280" r="6"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineNode3" />
+  <!-- (300, 360) center of bottom ring -->
+  <circle cx="300" cy="360" r="6"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineNode4" />
+  <!-- (300, 440) node below bottom ring -->
+  <circle cx="300" cy="440" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineNode5" />
+  <!-- (300, 520) diamond top -->
+  <circle cx="300" cy="520" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineNode6" />
+  <!-- (300, 600) diamond bottom center -->
+  <circle cx="300" cy="600" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineNode7" />
+  <!-- (300, 700) near bottom -->
+  <circle cx="300" cy="700" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineNode8" />
+  <!-- (300, 780) final bottom node -->
+  <circle cx="300" cy="780" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/spineBottom" />
+
+  <!-- ~~~~~~~~~~~~~ Spine LINES ~~~~~~~~~~~~~ -->
+  <line x1="300" y1="80"  x2="300" y2="140" class="link-line"
+        data-link="https://github.com/sematrica/spineLink1"/>
+  <line x1="300" y1="140" x2="300" y2="200" class="link-line"
+        data-link="https://github.com/sematrica/spineLink2"/>
+  <line x1="300" y1="200" x2="300" y2="280" class="link-line"
+        data-link="https://github.com/sematrica/spineLink3"/>
+  <line x1="300" y1="280" x2="300" y2="360" class="link-line"
+        data-link="https://github.com/sematrica/spineLink4"/>
+  <line x1="300" y1="360" x2="300" y2="440" class="link-line"
+        data-link="https://github.com/sematrica/spineLink5"/>
+  <line x1="300" y1="440" x2="300" y2="520" class="link-line"
+        data-link="https://github.com/sematrica/spineLink6"/>
+  <line x1="300" y1="520" x2="300" y2="600" class="link-line"
+        data-link="https://github.com/sematrica/spineLink7"/>
+  <line x1="300" y1="600" x2="300" y2="700" class="link-line"
+        data-link="https://github.com/sematrica/spineLink8"/>
+  <line x1="300" y1="700" x2="300" y2="780" class="link-line"
+        data-link="https://github.com/sematrica/spineLink9"/>
+
+  <!--
+    ========== TOP RING (center ~ (300, 200)) with 6 surrounding nodes in a hex pattern
+    at radius ~60.
+  -->
+  <!-- We'll define them at angles: 0, 60, 120, 180, 240, 300 around center (300,200). -->
+  <!-- Node ring #1 (6 nodes) -->
+  <circle cx="300" cy="140" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/topRingNode0" />
+  <circle cx="352" cy="170" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/topRingNode1" />
+  <circle cx="352" cy="230" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/topRingNode2" />
+  <circle cx="300" cy="260" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/topRingNode3" />
+  <circle cx="248" cy="230" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/topRingNode4" />
+  <circle cx="248" cy="170" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/topRingNode5" />
+
+  <!-- Lines for top ring, connecting each ring node to center (300,200) and adjacent ring nodes -->
+  <!-- Center to ring nodes -->
+  <line x1="300" y1="200" x2="300" y2="140" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine0" />
+  <line x1="300" y1="200" x2="352" y2="170" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine1" />
+  <line x1="300" y1="200" x2="352" y2="230" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine2" />
+  <line x1="300" y1="200" x2="300" y2="260" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine3" />
+  <line x1="300" y1="200" x2="248" y2="230" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine4" />
+  <line x1="300" y1="200" x2="248" y2="170" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine5" />
+  <!-- Adjacent ring nodes (form a hex) -->
+  <line x1="300" y1="140" x2="352" y2="170" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine6" />
+  <line x1="352" y1="170" x2="352" y2="230" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine7" />
+  <line x1="352" y1="230" x2="300" y2="260" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine8" />
+  <line x1="300" y1="260" x2="248" y2="230" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine9" />
+  <line x1="248" y1="230" x2="248" y2="170" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine10" />
+  <line x1="248" y1="170" x2="300" y2="140" class="link-line"
+        data-link="https://github.com/sematrica/topRingLine11" />
+
+  <!--
+    ========== BOTTOM RING (center ~ (300, 360)) with 6 surrounding nodes
+    at radius ~60
+  -->
+  <!-- Node ring #2 (6 nodes) -->
+  <circle cx="300" cy="300" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/botRingNode0" />
+  <circle cx="352" cy="330" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/botRingNode1" />
+  <circle cx="352" cy="390" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/botRingNode2" />
+  <circle cx="300" cy="420" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/botRingNode3" />
+  <circle cx="248" cy="390" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/botRingNode4" />
+  <circle cx="248" cy="330" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/botRingNode5" />
+
+  <!-- Lines for bottom ring, connecting each ring node to center (300,360) and adjacent ring nodes -->
+  <!-- Center to ring nodes -->
+  <line x1="300" y1="360" x2="300" y2="300" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine0" />
+  <line x1="300" y1="360" x2="352" y2="330" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine1" />
+  <line x1="300" y1="360" x2="352" y2="390" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine2" />
+  <line x1="300" y1="360" x2="300" y2="420" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine3" />
+  <line x1="300" y1="360" x2="248" y2="390" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine4" />
+  <line x1="300" y1="360" x2="248" y2="330" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine5" />
+  <!-- Adjacent ring nodes (form a hex) -->
+  <line x1="300" y1="300" x2="352" y2="330" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine6" />
+  <line x1="352" y1="330" x2="352" y2="390" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine7" />
+  <line x1="352" y1="390" x2="300" y2="420" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine8" />
+  <line x1="300" y1="420" x2="248" y2="390" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine9" />
+  <line x1="248" y1="390" x2="248" y2="330" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine10" />
+  <line x1="248" y1="330" x2="300" y2="300" class="link-line"
+        data-link="https://github.com/sematrica/botRingLine11" />
+
+  <!--
+    ========== DIAMOND at the bottom (300,520) to (300,600) with left and right corners
+  -->
+  <!-- Diamond corners (left/right) -->
+  <circle cx="270" cy="560" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/diamondLeft" />
+  <circle cx="330" cy="560" r="5"
+          class="link-node"
+          data-link="https://github.com/sematrica/diamondRight" />
+
+  <!-- Lines forming diamond -->
+  <line x1="300" y1="520" x2="270" y2="560" class="link-line"
+        data-link="https://github.com/sematrica/diamondLine1"/>
+  <line x1="270" y1="560" x2="300" y2="600" class="link-line"
+        data-link="https://github.com/sematrica/diamondLine2"/>
+  <line x1="300" y1="600" x2="330" y2="560" class="link-line"
+        data-link="https://github.com/sematrica/diamondLine3"/>
+  <line x1="330" y1="560" x2="300" y2="520" class="link-line"
+        data-link="https://github.com/sematrica/diamondLine4"/>
+
+  <!-- (Optional) Place a label near the bottom or top -->
+  <text x="300" y="860" class="banner-text">Sematrica</text>
+</svg>
+
+<script>
+  // Our tooltip element
+  const tooltip = document.getElementById('tooltip');
+
+  // Grab all lines and nodes
+  const clickableEls = document.querySelectorAll('.link-line, .link-node');
+
+  // On click => open data-link in new tab
+  clickableEls.forEach(el => {
+    el.addEventListener('click', () => {
+      const url = el.getAttribute('data-link');
+      if(url) window.open(url, '_blank');
+    });
+  });
+
+  // Show link in tooltip on hover
+  clickableEls.forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      const url = el.getAttribute('data-link') || 'No link';
+      tooltip.textContent = url;
+      tooltip.style.display = 'block';
+    });
+    el.addEventListener('mousemove', (e) => {
+      tooltip.style.left = (e.pageX + 10) + 'px';
+      tooltip.style.top  = (e.pageY + 10) + 'px';
+    });
+    el.addEventListener('mouseleave', () => {
+      tooltip.style.display = 'none';
+    });
+  });
+</script>
+
+</body>
+</html>
